@@ -1,6 +1,6 @@
-const seleniumServer = require("selenium-server")
-const chromeDriver = require("chromedriver")
-const geckoDriver = require("geckodriver")
+const seleniumServer = require("selenium-server");
+const chromeDriver = require("chromedriver");
+const geckoDriver = require("geckodriver");
 
 module.exports =
 {
