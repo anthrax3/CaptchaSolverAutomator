@@ -6,7 +6,7 @@ module.exports =
 {
   "src_folders" : ["tests"],
   "output_folder" : "reports",
-  "custom_commands_path" : "",
+  "custom_commands_path" : "commands",
   "custom_assertions_path" : "",
   "page_objects_path" : "",
   "globals_path" : "",

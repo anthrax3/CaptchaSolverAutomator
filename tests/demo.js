@@ -17,44 +17,8 @@ module.exports = {
             .pause(2000)
             .setValue('input[type="email"]', 'roshinrulz28@gmail.com')
             .setValue('input[type="password"]', process.env.PASSWORD)
-            // Save Captcha Locally
-            .getAttribute("#validation_form > img", "src", function (result) {
-                console.log(result.value);
-                // Get the image link
-                var image_url = result.value;
-                //Download the image
-                var response = request('GET', image_url, {
-                    'headers': {
-                        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) ' +
-                        'Chrome/61.0.3163.91 Safari/537.36'
-                    }
-                });
-                fs.writeFileSync(captcha_image_file_path, response.getBody(), 'binary');
-                console.log("Captcha saved")
-            })
-            // Get Captcha Value
-            .perform(function () {
-                // Read image from /tmp
-                var imageFile = fs.readFileSync(captcha_image_file_path);
-                var encoded = new Buffer(imageFile).toString('base64');
-                // Send Post data to Google
-                var response = request('POST', GOOGLE_VISION_API_URL, {
-                    json: {
-                        requests: {
-                            image: {content: encoded},
-                            features: [{type: 'DOCUMENT_TEXT_DETECTION', 'maxResults': 1}]
-                        }
-                    }
-                });
-                //console.log(body);
-                try {
-                    var captcha_text = JSON.parse(response.getBody('utf8'))['responses'][0]['textAnnotations'][0]['description'];
-                    console.log(captcha_text);
-                    browser.setValue('input[type="text"]', captcha_text)
-                } catch (err) {
-                    console.log("No Text found in the image")
-                }
-            })
+            .saveImage("#validation_form > img")  // Save Captcha Locally
+            .solveAndEnterCaptcha('input[type="text"]')  // Solve and enter the Captcha
             .pause()
         // .click("#validation_form > button")
         // .end();
