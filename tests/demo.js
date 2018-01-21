@@ -1,6 +1,3 @@
-var request = require('sync-request');
-const GOOGLE_VISION_API_URL = "https://vision.googleapis.com/v1/images:annotate?key=" + process.env.API_KEY;
-
 if (!process.env.API_KEY)
     throw new Error("API KEY not defined");
 
